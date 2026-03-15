@@ -51,6 +51,19 @@ body {
   backdrop-filter: blur(8px);
 }
 
+.hud__player {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hud__player button,
+.leaderboard__header button {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.9rem;
+  background: rgba(37, 99, 235, 0.7);
+}
+
 .hud__actions {
   display: flex;
   gap: 0.75rem;
@@ -159,6 +172,115 @@ button:disabled {
   background: rgba(37, 99, 235, 0.8);
 }
 
+.leaderboard {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: rgba(2, 6, 23, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.leaderboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.leaderboard__header h2 {
+  margin: 0;
+}
+
+.leaderboard__header p {
+  margin: 0.25rem 0 0;
+  color: rgba(243, 244, 246, 0.78);
+}
+
+.leaderboard__list {
+  margin: 0;
+  padding-left: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.leaderboard__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.leaderboard__item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.leaderboard__name {
+  font-weight: 600;
+}
+
+.leaderboard__score {
+  color: #93c5fd;
+}
+
+.leaderboard__empty {
+  list-style: none;
+  margin-left: -1.5rem;
+  color: rgba(243, 244, 246, 0.7);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(2, 6, 23, 0.78);
+  z-index: 10;
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal__card {
+  width: min(420px, 100%);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  gap: 0.9rem;
+}
+
+.modal__card h2,
+.modal__card p {
+  margin: 0;
+}
+
+.modal__label {
+  font-size: 0.9rem;
+  color: rgba(243, 244, 246, 0.78);
+}
+
+.modal__card input {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #020617;
+  color: inherit;
+  font: inherit;
+}
+
+.modal__error {
+  color: #fda4af;
+  min-height: 1.25rem;
+}
+
 @media (max-width: 600px) {
   .touch-controls {
     display: flex;
@@ -172,6 +294,11 @@ button:disabled {
   .hud {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .leaderboard__header,
+  .leaderboard__item {
+    flex-direction: column;
   }
 }
 

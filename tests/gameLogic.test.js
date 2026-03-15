@@ -10,6 +10,11 @@ import {
   restart,
   tick,
 } from '../src/snake/gameLogic.js';
+import {
+  buildLeaderboard,
+  isValidPlayerName,
+  normalizePlayerName,
+} from '../src/leaderboard/helpers.js';
 
 const tests = [
   {
@@ -121,6 +126,33 @@ const tests = [
     fn() {
       const cappedSpeed = getTickMsForScore(999);
       assert.equal(cappedSpeed, DEFAULT_CONFIG.minTickMs);
+    },
+  },
+  {
+    name: 'player names are normalized and validated',
+    fn() {
+      assert.equal(normalizePlayerName('   Alice   Bob   '), 'Alice Bob');
+      assert.equal(isValidPlayerName('A'), false);
+      assert.equal(isValidPlayerName('Alice'), true);
+    },
+  },
+  {
+    name: 'leaderboard keeps each player highest score',
+    fn() {
+      const leaderboard = buildLeaderboard(
+        [
+          { player_name: 'Alice', score: 6, updated_at: '2026-03-15T10:00:00Z' },
+          { player_name: 'Bob', score: 12, updated_at: '2026-03-15T11:00:00Z' },
+          { player_name: 'Alice', score: 9, updated_at: '2026-03-15T12:00:00Z' },
+          { player_name: 'Bob', score: 12, updated_at: '2026-03-15T09:00:00Z' },
+        ],
+        10,
+      );
+
+      assert.deepEqual(leaderboard, [
+        { playerName: 'Bob', score: 12, updatedAt: '2026-03-15T09:00:00Z' },
+        { playerName: 'Alice', score: 9, updatedAt: '2026-03-15T12:00:00Z' },
+      ]);
     },
   },
 ];
