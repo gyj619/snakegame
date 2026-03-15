@@ -29,7 +29,7 @@ This repo includes a GitHub Actions workflow at `.github/workflows/deploy-pages.
 1. Push this repo to GitHub.
 2. In the GitHub repo, open `Settings -> Pages`.
 3. Set `Source` to `GitHub Actions`.
-4. Push to the `master` branch, or run the `Deploy to GitHub Pages` workflow manually from the `Actions` tab.
+4. Push to the `main` branch, or run the `Deploy to GitHub Pages` workflow manually from the `Actions` tab.
 5. After deployment, open the Pages URL shown in the workflow run or in `Settings -> Pages`.
 
 Because the game is a static site, GitHub Pages serves `index.html` and `src/` directly. The local dev server in `scripts/dev-server.mjs` is not used in production.
