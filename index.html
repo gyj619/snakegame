@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Classic Snake</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1>Classic Snake</h1>
+        <p>Use arrow keys or WASD to guide the snake.</p>
+      </header>
+
+      <section class="hud">
+        <div class="hud__score">
+          Score: <span data-score>0</span>
+        </div>
+        <div class="hud__status" data-status>Press restart to begin.</div>
+        <div class="hud__actions">
+          <button type="button" data-action="toggle-pause">Pause</button>
+          <button type="button" data-action="restart">Restart</button>
+        </div>
+      </section>
+
+      <section class="board-wrapper">
+        <div class="board" data-board aria-label="Snake board"></div>
+        <div class="board-overlay" data-overlay hidden>
+          <p data-overlay-message></p>
+          <button type="button" data-overlay-restart>Play again</button>
+        </div>
+      </section>
+
+      <section class="touch-controls" data-touch-controls>
+        <div class="touch-controls__row">
+          <button type="button" data-direction="up">▲</button>
+        </div>
+        <div class="touch-controls__row">
+          <button type="button" data-direction="left">◀</button>
+          <button type="button" data-direction="down">▼</button>
+          <button type="button" data-direction="right">▶</button>
+        </div>
+      </section>
+
+      <section class="instructions">
+        <h2>How to play</h2>
+        <ul>
+          <li>Grow by eating food squares.</li>
+          <li>Avoid running into walls or your own tail.</li>
+          <li>Press space or the pause button to pause/resume.</li>
+          <li>Use restart to start a fresh run any time.</li>
+        </ul>
+      </section>
+    </main>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
