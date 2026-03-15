@@ -44,8 +44,8 @@ let scoreSubmittedForRun = false;
 let resumeAfterNameModal = false;
 let leaderboardEntries = [];
 let leaderboardStatus = hasLeaderboardConfig()
-  ? 'Loading leaderboard...'
-  : 'Leaderboard offline. Add Supabase config in src/leaderboard/config.js.';
+  ? '正在加载排行榜...'
+  : '排行榜未启用，请先在 src/leaderboard/config.js 中填写 Supabase 配置。';
 
 if (
   !boardEl ||
@@ -59,7 +59,7 @@ if (
   !nameInputEl ||
   !nameErrorEl
 ) {
-  throw new Error('Snake UI elements are missing from the page.');
+  throw new Error('游戏页面缺少必要的界面元素。');
 }
 
 const boardCells = buildBoard(boardEl, ROWS, COLS);
@@ -171,7 +171,7 @@ function runTick() {
 
   if (gameState.status === GAME_STATUS.OVER) {
     pauseGame();
-    showOverlay(`Game over! Final score: ${gameState.score}`);
+    showOverlay(`游戏结束，最终得分：${gameState.score}`);
     void saveScoreAndRefresh();
   }
 }
@@ -204,7 +204,7 @@ async function handleNameSubmit(event) {
   const submittedName = normalizePlayerName(formData.get('playerName'));
 
   if (!isValidPlayerName(submittedName)) {
-    showNameError('Please enter at least 2 characters.');
+    showNameError('名字至少需要 2 个字符。');
     return;
   }
 
@@ -230,24 +230,24 @@ function render() {
 
 function updateUiState() {
   scoreEl.textContent = String(gameState.score);
-  playerNameEl.textContent = playerName || 'Guest';
+  playerNameEl.textContent = playerName || '游客';
   leaderboardStatusEl.textContent = leaderboardStatus;
   refreshLeaderboardButton?.toggleAttribute('disabled', !hasLeaderboardConfig());
 
   if (!playerName) {
-    statusEl.textContent = 'Enter your name to start';
+    statusEl.textContent = '请输入名字后开始游戏';
     pauseButton?.setAttribute('disabled', 'true');
     return;
   }
 
   if (gameState.status === GAME_STATUS.OVER) {
-    statusEl.textContent = 'Game over';
+    statusEl.textContent = '游戏结束';
     pauseButton?.setAttribute('disabled', 'true');
   } else {
     pauseButton?.removeAttribute('disabled');
-    statusEl.textContent = isPaused ? 'Paused' : 'Running';
+    statusEl.textContent = isPaused ? '已暂停' : '进行中';
     if (pauseButton) {
-      pauseButton.textContent = isPaused ? 'Resume' : 'Pause';
+      pauseButton.textContent = isPaused ? '继续' : '暂停';
     }
   }
 }
@@ -259,8 +259,8 @@ function updateLeaderboard() {
     const emptyItem = document.createElement('li');
     emptyItem.className = 'leaderboard__empty';
     emptyItem.textContent = hasLeaderboardConfig()
-      ? 'No scores yet.'
-      : 'Configure Supabase to enable the shared leaderboard.';
+      ? '还没有成绩记录。'
+      : '请先配置 Supabase 以启用共享排行榜。';
     leaderboardListEl.appendChild(emptyItem);
     return;
   }
@@ -302,14 +302,14 @@ async function saveScoreAndRefresh() {
     const result = await submitScore(playerName, gameState.score);
     if (!result.enabled) {
       leaderboardStatus =
-        'Leaderboard offline. Add Supabase config in src/leaderboard/config.js.';
+        '排行榜未启用，请先在 src/leaderboard/config.js 中填写 Supabase 配置。';
       render();
       return;
     }
 
     leaderboardStatus = result.updated
-      ? 'Leaderboard updated.'
-      : 'Score recorded. Personal best unchanged.';
+      ? '排行榜已更新。'
+      : '成绩已记录，但未超过你的个人最高分。';
     await refreshLeaderboardView();
   } catch (error) {
     leaderboardStatus = error.message;
@@ -321,20 +321,20 @@ async function refreshLeaderboardView() {
   if (!hasLeaderboardConfig()) {
     leaderboardEntries = [];
     leaderboardStatus =
-      'Leaderboard offline. Add Supabase config in src/leaderboard/config.js.';
+      '排行榜未启用，请先在 src/leaderboard/config.js 中填写 Supabase 配置。';
     render();
     return;
   }
 
-  leaderboardStatus = 'Refreshing leaderboard...';
+  leaderboardStatus = '正在刷新排行榜...';
   render();
 
   try {
     const result = await fetchLeaderboard();
     leaderboardEntries = result.entries;
-    leaderboardStatus = `Shared leaderboard refreshes every ${Math.floor(
+    leaderboardStatus = `共享排行榜每 ${Math.floor(
       LEADERBOARD_CONFIG.refreshMs / 1000,
-    )}s.`;
+    )} 秒自动刷新一次。`;
   } catch (error) {
     leaderboardStatus = error.message;
   }
@@ -381,7 +381,7 @@ function showNameError(message) {
 
 function applyPlayerName(nextPlayerName) {
   playerName = normalizePlayerName(nextPlayerName);
-  playerNameEl.textContent = playerName || 'Guest';
+  playerNameEl.textContent = playerName || '游客';
 }
 
 function buildBoard(container, rows, cols) {
